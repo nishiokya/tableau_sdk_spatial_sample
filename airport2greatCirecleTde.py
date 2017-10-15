@@ -47,7 +47,11 @@ table_definition.addColumn('Destination airport ID', Type.INTEGER)#5
 table_definition.addColumn('Codeshare', Type.UNICODE_STRING)#6
 table_definition.addColumn('Stops', Type.INTEGER)#7
 table_definition.addColumn('Equipment', Type.UNICODE_STRING)#8
-table_definition.addColumn('geometry', Type.SPATIAL)
+table_definition.addColumn('geometry', Type.SPATIAL)#9
+table_definition.addColumn('Source airport Country', Type.UNICODE_STRING)#10
+table_definition.addColumn('Source airport Name', Type.UNICODE_STRING)#11
+table_definition.addColumn('Destination airport Country', Type.UNICODE_STRING)#12
+table_definition.addColumn('Destination airport Name', Type.UNICODE_STRING)#13
 
 
 # 4. Initialize a new table in the extract
@@ -72,7 +76,10 @@ with codecs.open(csvLocation, 'r') as csvfile:
     https://ja.wikipedia.org/wiki/Well-known_text
     """
    
-    airport[(row[0])] = [row[7],row[6]]
+    airport[(row[0])] = [row[7],row[6],
+      row[1].decode('utf-8'),
+      row[2].decode('utf-8'),
+      row[3].decode('utf-8')]
     
    
 
@@ -96,9 +103,14 @@ with codecs.open("routes.dat", 'r') as csvfile:
     #空港の緯度経度とAirplan IDが取れている場合に出力
     if len(o) >0 and len(d)>0 and row[1].isdigit() == True :
         olat = float(o[1])
-        olon = float(d[0])
+        olon = float(o[0])
+        oname = o[2]
+        ocountry = o[4]
+
         dlat = float(d[1])
         dlon = float(d[0])
+        dname = d[2]
+        dcountry = d[4]
       
         p = Geodesic.WGS84.Inverse(olat, olon, dlat, dlon)
         l = Geodesic.WGS84.Line(p['lat1'], p['lon1'], p['azi1'])
@@ -114,6 +126,7 @@ with codecs.open("routes.dat", 'r') as csvfile:
           linestring += str(b['lon2']) + ' ' + str(b['lat2']) + ', '
         # remove the ',' after the last coordinate and close the WKT string with a ')'
         linestring = linestring[:-2] + ')'
+        #print(linestring)
 
         new_row.setString(0, row[0])
         new_row.setInteger(1, int(row[1]))
@@ -128,6 +141,12 @@ with codecs.open("routes.dat", 'r') as csvfile:
         new_row.setInteger(7, int(row[7]))
         new_row.setString(8, row[8])
         new_row.setSpatial(9, linestring)
+        new_row.setString(10, ocountry)
+        new_row.setString(11, ocode)
+        new_row.setString(12, dcountry)
+        new_row.setString(13, dname)
+
+
         new_table.insert(new_row)
 
 # 7. Save the table and extract

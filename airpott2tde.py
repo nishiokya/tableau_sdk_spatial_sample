@@ -15,8 +15,8 @@ import csv,codecs
 
 
 # Where the origin data comes from
-csvLocation = 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat'
-#csvLocation = 'airports.dat'
+#csvLocation = 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat'
+csvLocation = 'airports.dat'
 
 # Where the TDE will be written
 extractLocation = 'all_airport.tde'
@@ -69,7 +69,7 @@ with codecs.open(csvLocation, 'r') as csvfile:
     https://ja.wikipedia.org/wiki/Well-known_text
     """
     point = 'POINT('+(row[7])+' '+(row[6])+')'
-    print (point)
+    #print (point)
    
     new_row.setInteger(0, int(row[0]))
     new_row.setString(1, row[1].decode('utf-8'))
