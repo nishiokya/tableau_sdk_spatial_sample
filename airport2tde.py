@@ -15,8 +15,8 @@ import csv,codecs
 
 
 # Where the origin data comes from
-csvLocation = 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat'
-#csvLocation = 'airports.dat'
+#csvLocation = 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat'
+csvLocation = 'airports.dat'
 
 # Where the TDE will be written
 extractLocation = 'all_airport.tde'

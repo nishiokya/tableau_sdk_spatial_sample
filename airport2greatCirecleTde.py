@@ -142,7 +142,7 @@ with codecs.open("routes.dat", 'r') as csvfile:
         new_row.setString(8, row[8])
         new_row.setSpatial(9, linestring)
         new_row.setString(10, ocountry)
-        new_row.setString(11, ocode)
+        new_row.setString(11, oname)
         new_row.setString(12, dcountry)
         new_row.setString(13, dname)
 
